@@ -161,6 +161,7 @@ static void master_task(void *pvParameters)
         		case 0x03: message_size = 8;
         		break;
         	}
+        	message_size+=1;
         	/* Send the header */
         	UART_RTOS_Send(&(handle->uart_rtos_handle), (uint8_t *)lin1p3_header, 3);
         	/* Wait for the response */
@@ -247,6 +248,7 @@ static void slave_task(void *pvParameters)
     		break;
     	}
     	/* TODO: Add the checksum to the message */
+    	message_size+=1;
     	/* Send the message data */
     	UART_RTOS_Send(&(handle->uart_rtos_handle), (uint8_t *)lin1p3_message, message_size);
     }

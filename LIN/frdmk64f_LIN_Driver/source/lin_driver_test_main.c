@@ -21,10 +21,12 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "lin1d3_driver.h"
+#include "FreeRTOSConfig.h"
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-#include "FreeRTOSConfig.h"
+#define xJUST_MASTER
+
 /* UART instance and clock */
 #define MASTER_UART UART3
 #define MASTER_UART_CLKSRC UART3_CLK_SRC
@@ -112,6 +114,7 @@ static void test_task(void *pvParameters)
 	node_config.messageTable[2].handler = message_3_callback_master;
 	/* Init Master node */
 	master_handle = lin1d3_InitNode(node_config);
+#if !defined(JUST_MASTER)
 	/* Set Slave Config */
 	node_config.type = lin1d3_slave_nodeType;
 	node_config.bitrate = 9600;
@@ -126,9 +129,13 @@ static void test_task(void *pvParameters)
 	node_config.messageTable[2].handler = message_3_callback_slave;
 	/* Init Slave Node*/
 	slave_handle = lin1d3_InitNode(node_config);
+#endif
 
-	if((NULL == master_handle) ||
-	   (NULL == slave_handle)){
+	if((NULL == master_handle)
+#if !defined(JUST_MASTER)
+		|| (NULL == slave_handle)
+#endif
+	   ){
 		error = kStatus_Fail;
 	}
 	else {
