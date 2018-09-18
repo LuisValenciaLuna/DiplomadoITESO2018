@@ -1,0 +1,33 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+ mstimer Timer10ms;  
+ message EngineMessage EngineMsg;
+}
+
+
+
+
+on start
+{
+  setTimer(Timer10ms,10);
+}
+
+on timer Timer10ms
+{
+ setTimer(Timer10ms,10);
+ EngineMsg.EnginePresent = 1; 
+ output(EngineMsg); 
+}
+
+on message ActuadorMessage
+{
+  EngineMsg.EngineRPM = this.ActuatorAccel;
+  putValue(envRPM,(EngineMsg.EngineRPM)*0.1526);
+}
+

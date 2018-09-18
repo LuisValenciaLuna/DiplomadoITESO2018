@@ -1,0 +1,21 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+  
+}
+
+
+on message EngineMessage
+{
+  if(this.EnginePresent == 1)
+  {
+    write("Si está presente");
+  }
+}
+
+

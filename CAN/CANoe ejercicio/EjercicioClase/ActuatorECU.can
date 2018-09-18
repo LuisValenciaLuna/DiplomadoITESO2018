@@ -1,0 +1,50 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+ mstimer Timer10ms;  
+ message ActuadorMessage ActuadorMsg;
+}
+
+
+
+
+on start
+{
+  setTimer(Timer10ms,10);  
+}
+
+on timer Timer10ms
+{
+ setTimer(Timer10ms,10);
+ ActuadorMsg.ActuatorPresent = 1;
+ output(ActuadorMsg); 
+}
+
+
+
+
+on key 'a'
+{
+  if(ActuadorMsg.ActuatorAccel < 65500)
+    ActuadorMsg.ActuatorAccel += 100;    
+}
+
+on key 'f'
+{
+  if(ActuadorMsg.ActuatorAccel >= 100)
+    ActuadorMsg.ActuatorAccel -= 100;  
+}
+
+
+on envVar envAccel
+{
+ 
+    ActuadorMsg.ActuatorAccel = getValue(this);  
+ 
+}
+
